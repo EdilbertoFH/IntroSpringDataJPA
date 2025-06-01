@@ -33,18 +33,24 @@ public class IntroSpringDataJpaApplication {
 		return args -> {
 			System.out.println("Ejecutando testCustomerRepositoryCommand");
 
+
+			Customer rosendo = new Customer();
+			rosendo.setName("Rosendo");
+			rosendo.setPassword("rose123");
+
 			Customer juan = new Customer();
 			juan.setName("Juan Murillo");
 			juan.setPassword("juan123");
 
-			iCustomerCrudRepository.save(juan);
+			List<Customer>clientes = List.of(rosendo, juan);
+			iCustomerCrudRepository.saveAll(clientes);
+			System.out.println("\n Se guardaron los 2 registros");
 
-			System.out.println("Se guardo la entidad Juan");
 
 			System.out.println("\n Mostrando los registros existentes");
 			iCustomerCrudRepository.findAll().forEach(System.out::println);
 
-			Optional<Customer>icustomerCrudRepository = iCustomerCrudRepository.findById(1L);
+			Optional<Customer>icustomerCrudRepository = iCustomerCrudRepository.findById(2L);
 			if(icustomerCrudRepository.isPresent()){
 				System.out.println("El registro con id 1 existe");
 			}else{
