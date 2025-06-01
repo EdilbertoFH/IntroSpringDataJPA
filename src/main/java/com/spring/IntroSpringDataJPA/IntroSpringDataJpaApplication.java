@@ -37,27 +37,42 @@ public class IntroSpringDataJpaApplication {
 			Customer rosendo = new Customer();
 			rosendo.setName("Rosendo");
 			rosendo.setPassword("rose123");
+			rosendo.setUsername("rose123");
 
 			Customer juan = new Customer();
 			juan.setName("Juan Murillo");
 			juan.setPassword("juan123");
+			juan.setUsername("juan123");
 
-			List<Customer>clientes = List.of(rosendo, juan);
+			//Creamos uno repetido
+			Customer juan2 = new Customer();
+			juan.setName("Juan Mauricio");
+			juan.setPassword("juan123");
+			juan.setUsername("juanito123");
+
+
+			List<Customer>clientes = List.of(rosendo, juan,juan2);
 			iCustomerCrudRepository.saveAll(clientes);
+
 			System.out.println("\n Se guardaron los 2 registros");
+			iCustomerCrudRepository.searchByUsername("juan123");
+			System.out.println("\n Se busco por username");
+
+			System.out.println("\n Se guardaron los 2 registros");
+			iCustomerCrudRepository.findByUsername("juan123");
+			System.out.println("\n Se busco por username");
+
+			//Pruebas parte2 jpa
+			System.out.println("\n Nombres que contienen la letra o");
+			iCustomerCrudRepository.searchByNameContaining("o").forEach(System.out::println);
+
+			System.out.println("\n Nombres que terminan con las letras ez");
+			iCustomerCrudRepository.readByNameIsEndingWith("ez").forEach(System.out::println);
+
+			System.out.println("\n Nombres que inician la letra");
+			iCustomerCrudRepository.queryByNameStartingWith("o").forEach(System.out::println);
 
 
-			System.out.println("\n Mostrando los registros existentes");
-			iCustomerCrudRepository.findAll().forEach(System.out::println);
-
-			Optional<Customer>icustomerCrudRepository = iCustomerCrudRepository.findById(2L);
-			if(icustomerCrudRepository.isPresent()){
-				System.out.println("El registro con id 1 existe");
-			}else{
-				System.out.println("El registro con id 1 no existe");
-			}
-			System.out.println("\n Borrar registro con id 1");
-			iCustomerCrudRepository.deleteById(1L);
 
 		};
 

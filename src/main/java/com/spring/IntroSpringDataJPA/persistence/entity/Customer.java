@@ -17,6 +17,17 @@ public class Customer {
     @Column (name = "contrasenia")
     private String password;
 
+    @Column (unique = true)
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public Long getId() {
         return id;
     }
@@ -47,6 +58,7 @@ public class Customer {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 }
