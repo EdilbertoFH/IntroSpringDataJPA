@@ -24,6 +24,7 @@ public interface ICustomerCrudRepository extends JpaRepository<Customer, Long> {
     List<Customer> readByNameIsEndingWith(String username);//SELECT c.* FROM customers c WHERE c.name LIKE %?
 
     List<Customer> findByNameContainingAndIdGreaterThanOrderByIdDesc(String name, Long id);
+    // SELECET c. * FROM customer c where c.name like %?1% and c.id > ? %2 order by desc
 
 
 }
