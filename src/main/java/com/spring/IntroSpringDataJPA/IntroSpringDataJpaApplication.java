@@ -77,6 +77,9 @@ public class IntroSpringDataJpaApplication {
 			iCustomerCrudRepository.findByNameContainingAndIdGreaterThanOrderByIdDesc("ez", 3L)
 					.forEach(System.out::println);
 
+			System.out.println("\nNombres que contienen ez y cuyo id sea mayor que 3 utilizando JPQL y la anotacion @Query");
+			iCustomerCrudRepository.findAllByNameAndIdGreatherThan("ez", 1L)
+					.forEach(System.out::println);
 
 		};
 

@@ -2,6 +2,7 @@ package com.spring.IntroSpringDataJPA.persistence.respository;
 
 import com.spring.IntroSpringDataJPA.persistence.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,9 @@ public interface ICustomerCrudRepository extends JpaRepository<Customer, Long> {
 
     List<Customer> findByNameContainingAndIdGreaterThanOrderByIdDesc(String name, Long id);
     // SELECET c. * FROM customer c where c.name like %?1% and c.id > ? %2 order by desc
+
+   @Query("select c from Customer c where c.name like %?1% and c.id >= ?2 order by c.id desc")
+   List <Customer> findAllByNameAndIdGreatherThan(String name, Long id);
 
 
 }
