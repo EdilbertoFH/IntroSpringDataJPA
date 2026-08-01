@@ -1,5 +1,7 @@
 package com.spring.IntroSpringDataJPA;
 
+import com.spring.IntroSpringDataJPA.persistence.entity.Customer;
+import com.spring.IntroSpringDataJPA.persistence.respository.ICustomerCrudRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,49 +16,70 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @SpringBootApplication
 public class IntroSpringDataJpaApplication {
 
-
+/*coments*/
 	public static void main(String[] args) {
 		SpringApplication.run(IntroSpringDataJpaApplication.class, args);
 	}
+	@Autowired
+	private ICustomerCrudRepository iCustomerCrudRepository;
 
 	@Bean
-	public CommandLineRunner validateDSComand(DataSource ds){
+	public CommandLineRunner testCustomerRepositoryCommand(){
 		return args -> {
-			System.out.println("\nIniciando datasource y Data Source\n");
+			System.out.println("Ejecutando testCustomerRepositoryCommand");
 
-		Connection con = ds.getConnection();
-		PreparedStatement pstm = (PreparedStatement) con.prepareStatement("select * from videojuego");
-		ResultSet rs = pstm.executeQuery();
 
-		while(rs.next()){
-			String mensaje= rs.getString("FIIDVIDEOJ") + "-" + rs.getString("NOMBREVIDEOJ") +
-					"-" + rs.getString("DESCVIDEOJ") + "-" + rs.getString("GENERO")+
-					"-" + rs.getString("PLATAFORMA") + "-" + rs.getString("ANIOLANZ");
-			System.out.println("\n" + mensaje + "\n");
+			Customer rosendo = new Customer();
+			rosendo.setName("Rosendo");
+			rosendo.setPassword("rose123");
+			rosendo.setUsername("rose123");
 
-		}
+			Customer juan = new Customer();
+			juan.setName("Juan Murillo");
+			juan.setPassword("juan123");
+			juan.setUsername("juan123");
+
+			//Creamos uno repetido
+			Customer juan2 = new Customer();
+			juan.setName("Juan Mauricio");
+			juan.setPassword("juan123");
+			juan.setUsername("juanito123");
+
+
+			List<Customer>clientes = List.of(rosendo, juan,juan2);
+			iCustomerCrudRepository.saveAll(clientes);
+
+			System.out.println("\n Se guardaron los 2 registros");
+			iCustomerCrudRepository.searchByUsername("juan123");
+			System.out.println("\n Se busco por username");
+
+			System.out.println("\n Se guardaron los 2 registros");
+			iCustomerCrudRepository.findByUsername("juan123");
+			System.out.println("\n Se busco por username");
+
+			//Pruebas parte2 jpa
+			System.out.println("\n Nombres que contienen la letra o");
+			iCustomerCrudRepository.searchByNameContaining("o").forEach(System.out::println);
+
+			System.out.println("\n Nombres que terminan con las letras ez");
+			iCustomerCrudRepository.readByNameIsEndingWith("ez").forEach(System.out::println);
+
+			System.out.println("\n Nombres que inician la letra");
+			iCustomerCrudRepository.queryByNameStartingWith("o").forEach(System.out::println);
+
+
+
 		};
 
 	}
-	@Bean
-	public CommandLineRunner validaEntityManagerFact(EntityManager em){
-		return args -> {
-			System.out.println("\nProbando EntityManagerFactory\n");
-
-			List<Object[]> registros =  em.createNativeQuery("SELECT * FROM VIDEOJUEGO").getResultList();
-			registros.forEach(row -> {
-				String mensaje = row[0] + "-" + row[1] + "-" + row[2] + "-" + row[3];
-				System.out.println("\n" + mensaje + "\n");
-			});
 
 
 
 
-		};
-	}
 
 }
