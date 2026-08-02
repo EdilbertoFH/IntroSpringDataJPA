@@ -2,7 +2,8 @@ package com.spring.IntroSpringDataJPA.persistence.entity;
 
 import jakarta.persistence.*;
 
-import java.lang.annotation.Target;
+import java.util.List;
+
 
 @Entity
 @Table (name = "clientes")
@@ -22,9 +23,9 @@ public class Customer {
     @Column (unique = true)
     private String username;
 
-    @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_direccion")
-    private Address address;
+    @OneToMany(targetEntity = Address.class, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_cliente")
+    private List<Address> addresses;
 
     public String getUsername() {
         return username;
@@ -58,12 +59,13 @@ public class Customer {
         this.password = password;
     }
 
-    public Address getAddress() {
-        return address;
+
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 
     @Override

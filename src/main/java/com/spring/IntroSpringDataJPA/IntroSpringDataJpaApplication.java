@@ -36,10 +36,14 @@ public class IntroSpringDataJpaApplication {
 			rosendo.setName("Rosendo Rosas");
 			rosendo.setPassword("rose123");
 			rosendo.setUsername("rose123");
-			Address rosendoAddres = new Address();
-			rosendoAddres.setCountry("United States");
-			rosendoAddres.setAddress("1st street");
-			rosendo.setAddress(rosendoAddres);
+
+			Address rosendoAddresOne = new Address();
+			rosendoAddresOne.setCountry("United States");
+			rosendoAddresOne.setAddress("1st street");
+			Address rosendoAddrestwo = new Address();
+			rosendoAddrestwo.setCountry("Mexico");
+			rosendoAddrestwo.setAddress("La rosa, rosarito sinaloa.");
+			//rosendo.setAddresses(rosendoAddres);
 
 
 			Customer juan = new Customer();
@@ -49,41 +53,37 @@ public class IntroSpringDataJpaApplication {
 			Address juanAddres = new Address();
 			juanAddres.setCountry("Russia");
 			juanAddres.setAddress("2nd street");
-			juan.setAddress(juanAddres);
+
+			Address juanAddrestwo = new Address();
+			juanAddrestwo.setCountry("United States");
+			juanAddrestwo.setAddress("3rd street");
+			//juan.setAddresses(juanAddres);
 
 
 			Customer liz = new Customer();
 			juan.setName("Liz Torres de Hernandez");
 			juan.setPassword("liz124");
 			juan.setUsername("liz124");
-			Address lizAddres = new Address();
-			lizAddres.setCountry("Mexico");
-			lizAddres.setAddress("Petatlan");
-			liz.setAddress(lizAddres);
+			Address lizAddresone = new Address();
+			lizAddresone.setCountry("Mexico");
+			lizAddresone.setAddress("Petatlan");
+			Address lizAddrestow = new Address();
+			lizAddrestow.setCountry("Mexico");
+			lizAddrestow.setAddress("Ciudad de mexico, Coyoacan Pedregal de SantoDomingo");
+			//liz.setAddress(lizAddres);
 
 
-			List<Customer>clientes = List.of(rosendo, juan, liz);
-			iCustomerCrudRepository.saveAll(clientes);
-			System.out.println("\n Se guardaron los 3 registros");
+			rosendo.setAddresses(List.of(rosendoAddresOne, rosendoAddrestwo));
+			juan.setAddresses(List.of(juanAddres));
+			liz.setAddresses(List.of(lizAddresone, lizAddrestow));
 
-			System.out.println("\n Consutla general");
-			iCustomerCrudRepository.findAll().forEach(System.out::println);
-
-
+			iCustomerCrudRepository.save(juan);
+			iCustomerCrudRepository.save(liz);
+			iCustomerCrudRepository.save(rosendo);
 
 		};
 
 	}
-
-	@Bean
-	public CommandLineRunner testAddresCrudRepository(IAdressRepository address){
-		return args -> {
-			address.findAll().forEach(each ->{
-				System.out.println(each.getAddress() + " - " + each.getCustomer().getId());
-			});
-		};
-	}
-
 
 
 
